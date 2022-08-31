@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "Instagram",
-    "slug": "Instagram",
+    "name": "Instagram Clone",
+    "slug": "InstagramClone",
+    "privacy": "unlisted",
+    "description": "Simple Instagram clone",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

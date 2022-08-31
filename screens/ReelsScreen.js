@@ -9,7 +9,13 @@ export default function ReelsScreen() {
   const mediaRef = useRef([]);
   const [reels, setReels] = useState([])
 
-useEffect(() => getReels(setReels), [])
+  useEffect(() => {
+    const fetchReels = async () => {
+      const reels = await getReels();
+      setReels(reels)
+    }
+    fetchReels()
+  }, [])
 
   const array = [
     "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4",

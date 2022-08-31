@@ -61,7 +61,7 @@ export default function Gallery({selectedImage ,setSelectedImage}) {
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => setSelectedImage(item.uri)}>
             <Image
-              style={{ width: 130, height: 130 }}
+              style={{ width: 128, height: 128 }}
               resizeMode="cover"
               source={{ uri: item.uri }}
             />

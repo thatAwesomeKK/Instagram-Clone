@@ -10,7 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { Video } from "expo-av";
 
-export default function Gallery({selectedVideo, setSelectedVideo}) {
+export default function Gallery({ selectedVideo, setSelectedVideo }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
 
   const [galleryItems, setGalleryItems] = useState([]);
@@ -68,11 +68,13 @@ export default function Gallery({selectedVideo, setSelectedVideo}) {
       </View>
       <FlatList
         data={galleryItems._W}
+        horizontal={false}
+        numColumns={3}
         keyExtractor={(item) => item.uri}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => setSelectedVideo(item.uri)}>
             <Video
-              style={{ width: 140, height: 140 }}
+              style={{ width: 128, height: 128 }}
               resizeMode="cover"
               source={{ uri: item.uri }}
             />

@@ -4,20 +4,26 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icon } from "@rneui/base";
+import { checkLike, getReelsInfo, handleLikeReels } from "../../lib/db";
 
 const HEIGHT = Dimensions.get("window").height;
 const WIDTH = Dimensions.get("window").width;
 
 //Main Interactive Component
-export default function Interactive({item}) {
+export default function Interactive({ item }) {
+  const [info, setInfo] = useState(null)
+
+  useEffect(() => getReelsInfo(item, setInfo), [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <Bottom item={item}/>
+      <Bottom info={info} />
     </SafeAreaView>
   );
 }
@@ -43,18 +49,22 @@ const Header = () => (
 );
 
 //Bottom Sub-Component
-const Bottom = ({item}) => (
+const Bottom = ({ info }) => (
   <View style={styles.BottomTab}>
-    <Caption item={item} />
-    <ActivityTab />
+    <Caption info={info} />
+    <ActivityTab info={info} />
   </View>
 );
 
 //Caption Sub-Sub-Component
-const Caption = ({item}) => (
+const Caption = ({ info }) => (
   <View style={styles.Caption}>
     <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }}>
-      <Icon type="font-awesome-5" name="user-circle" color="white" size={30} />
+      <Image
+        style={{ width: 30, height: 30, overflow: "hidden", borderRadius: 15 }}
+        resizeMode="cover"
+        source={{ uri: info?.pfp }}
+      />
       <Text
         style={{
           color: "white",
@@ -63,25 +73,25 @@ const Caption = ({item}) => (
           fontSize: 12,
         }}
       >
-        {item.username}
+        {info?.username}
       </Text>
     </TouchableOpacity>
     <Text style={{ marginTop: 7, color: "white", fontSize: 12 }}>
-      {item.caption}
+      {info?.caption}
     </Text>
   </View>
 );
 
 //Activity Sub-Sub-Component
-const ActivityTab = () => (
+const ActivityTab = ({ info }) => (
   <View style={styles.ActivityTab}>
-    <TouchableOpacity style={styles.Icons}>
-      <Icon type="antdesign" name="heart" color="white" size={25} />
-      <Text style={{color:'white', fontSize: 12}}>10</Text>
+    <TouchableOpacity onPress={() => handleLikeReels(info)} style={styles.Icons}>
+      <Icon type="font-awesome" name={checkLike(info) ? "heart" : "heart-o"} color={checkLike(info) ? "red" : "white"} size={25} />
+      <Text style={{ color: 'white', fontSize: 12 }}>{info?.likes_by_users.length}</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.Icons}>
       <Icon type="feather" name="message-circle" color="white" size={25} />
-      <Text style={{color:'white', fontSize: 12}}>12</Text>
+      <Text style={{ color: 'white', fontSize: 12 }}>12</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.Icons}>
       <Icon type="feather" name="send" color="white" size={25} />
@@ -99,14 +109,16 @@ const ActivityTab = () => (
         styles.Icons,
         {
           borderRadius: 5,
-          paddingHorizontal: 7,
-          paddingVertical: 3,
           borderWidth: 1,
           borderColor: "white",
+          overflow: "hidden",
         },
       ]}
     >
-      <Icon type="font-awesome" name="user" color="white" size={30} />
+      <Image
+        source={{ uri: info?.pfp }}
+        style={{ width: 30, height: 30 }}
+      />
     </TouchableOpacity>
   </View>
 );

@@ -65,7 +65,7 @@ export const VideoPlayer = forwardRef(({ item }, parentRef) => {
       posterSource={{ uri: 'https://www.wwe.com/f/styles/og_image/public/all/2019/10/RAW_06202016rf_1606--3d3997f53e6f3e9277cd5a67fbd8f31f.jpg' }}
       isLooping
       source={{
-        uri: item?.reelUrl,
+        uri: item.reelUrl,
       }}
     />
   );

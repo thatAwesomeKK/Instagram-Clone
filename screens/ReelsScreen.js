@@ -5,6 +5,8 @@ import Interactive from "../components/reels/Interactive";
 import VideoPlayer from "../components/reels/VideoPlayer";
 import { getReels } from "../lib/db";
 
+const HEIGHT = Dimensions.get("window").height - 50
+
 export default function ReelsScreen() {
   const mediaRef = useRef([]);
   const [reels, setReels] = useState([])
@@ -41,7 +43,7 @@ export default function ReelsScreen() {
   });
 
   const renderItem = ({ item, index }) => (
-    <View style={{ height: Dimensions.get("window").height - 49 }}>
+    <View style={{ height: HEIGHT}}>
       <Interactive item={item} />
       <VideoPlayer
         item={item}
@@ -55,15 +57,15 @@ export default function ReelsScreen() {
         data={reels}
         keyExtractor={item => item.id}
         renderItem={renderItem}
-        pagingEnabled
+        snapToInterval={HEIGHT}
         decelerationRate={"fast"}
+        pagingEnabled
         onViewableItemsChanged={onViewableItemsChanged.current}
         windowSize={4}
         maxToRenderPerBatch={2}
         initialNumToRender={0}
-        removeClippedSubviews
         viewabilityConfig={{
-          itemVisiblePercentThreshold: 100,
+          itemVisiblePercentThreshold: 99,
         }}
       />
     </SafeAreaView>
